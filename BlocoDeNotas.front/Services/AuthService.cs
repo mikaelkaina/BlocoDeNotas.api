@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Headers;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Blazored.LocalStorage;
 using BlocoDeNotas.front.Models;
@@ -47,7 +48,14 @@ namespace BlocoDeNotas.front.Services
         public async Task<bool> IsAuthenticatedAsync()
         {
             var token = await _localStorage.GetItemAsync<string>("authToken");
-            return !string.IsNullOrEmpty(token);
+            if (string.IsNullOrEmpty(token)) return false;
+
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(token);
+
+            var exp = jwtToken.ValidTo;
+            return exp > DateTime.UtcNow;
+
         }
 
         public async Task<string?> GetTokenAsync()

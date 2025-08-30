@@ -75,7 +75,7 @@
     <textarea @bind="notaAtual.Conteudo" placeholder="Escreva sua nota aqui..."></textarea>
 
     <button class="btn btn-salvar" @onclick="SalvarNota">Salvar</button>
-    <button class="btn btn-deletar" @onclick="DeletarNota" disabled="@(notaSelecionada)">Deletar</button>
+    <button class="btn btn-deletar" @onclick="DeletarNota" disabled="@(notaSelecionada == null)">Deletar</button>
 
     <div class="notas-salvas">
         <h4>Notas Salvas</h4>
